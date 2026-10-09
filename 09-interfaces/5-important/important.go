@@ -14,10 +14,10 @@ func (e *E) Error() string {
 	return e.msg + fmt.Sprintf(": %v", e.code)
 }
 
-// builtin
-type error interface {
-	Error() string
-}
+// builtin (предопределенный встроенный интерфейс языка Go):
+// type error interface {
+// 	Error() string
+// }
 
 // io
 type Reader interface {

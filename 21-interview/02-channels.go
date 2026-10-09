@@ -15,10 +15,14 @@ func Select() {
 	}
 }
 
+// ProduceConsume демонстрирует паттерн "поставщик-потребитель".
+// Важно: горутина-поставщик обязана закрыть канал (defer close(ch)),
+// иначе цикл `for val := range ch` у потребителя заблокируется навсегда (deadlock).
 func ProduceConsume() {
 	ch := make(chan int)
 
 	go func() {
+		defer close(ch)
 		for i := 0; i < 10; i++ {
 			ch <- i
 		}

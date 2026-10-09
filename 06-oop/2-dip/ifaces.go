@@ -28,6 +28,17 @@ type CustomLogger struct {
 	Logger
 }
 
+// Log реализует интерфейс Logger.
+// При встраивании интерфейса в структуру необходимо либо явно инициализировать поле,
+// либо переопределить метод, иначе вызов через nil-интерфейс приведет к панике nil pointer dereference.
+func (c *CustomLogger) Log(msg string) error {
+	if c.Logger != nil {
+		return c.Logger.Log(msg)
+	}
+	log.Println(msg)
+	return nil
+}
+
 // MemLogger - заглушка журнала в памяти для тестов.
 type MemLogger struct{}
 

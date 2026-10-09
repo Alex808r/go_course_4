@@ -32,6 +32,8 @@ func (l *List) Push(e Elem) *Elem {
 	l.root.next = &e
 	if e.next != l.root {
 		e.next.prev = &e
+	} else {
+		l.root.prev = &e
 	}
 	return &e
 }
@@ -52,10 +54,43 @@ func (l *List) String() string {
 
 // Pop удаляет первый элемент списка.
 func (l *List) Pop() *List {
-	return nil
+	if l == nil || l.root == nil || l.root.next == l.root {
+		return l
+	}
+
+	first := l.root.next
+	l.root.next = first.next
+	first.next.prev = l.root
+
+	// Если список опустел, восстанавливаем указатель prev на корень
+	if l.root.next == l.root {
+		l.root.prev = l.root
+	}
+
+	return l
 }
 
-// Reverse разворачивает список.
+// Reverse разворачивает список за O(N).
 func (l *List) Reverse() *List {
-	return nil
+	if l == nil || l.root == nil || l.root.next == l.root {
+		return l
+	}
+
+	curr := l.root.next
+	var prev *Elem = l.root
+
+	for curr != l.root {
+		next := curr.next
+		curr.next = prev
+		curr.prev = next
+		prev = curr
+		curr = next
+	}
+
+	oldHead := l.root.next
+	l.root.next = prev
+	l.root.prev = oldHead
+
+	return l
 }
+

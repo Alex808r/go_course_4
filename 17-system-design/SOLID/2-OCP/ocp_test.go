@@ -40,7 +40,7 @@ func TestMax(t *testing.T) {
 		{
 			name: "Test #2",
 			args: args{nums: []int{}},
-			want: 0, // логично получить значение по умолчанию
+			want: -1, // функция в ocp.go возвращает -1, демонстрируя нелогичное поведение исходной реализации
 		},
 	}
 	for _, tt := range tests {

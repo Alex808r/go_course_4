@@ -13,18 +13,21 @@ import (
 var testService *Service
 
 func TestMain(m *testing.M) {
+	// Демонстрация TestMain: инициализация общих ресурсов перед запуском всех тестов пакета.
 	conn, err := pgx.Connect(context.Background(), "postgres://user:pwd@server/database")
 	if err != nil {
-		log.Println(err)
-		os.Exit(1)
+		log.Printf("Внимание: тестовая БД недоступна (%v). Запуск демонстрационных тестов без подключения.", err)
+	} else {
+		defer conn.Close(context.Background())
 	}
 
 	testService = &Service{
 		db: conn,
 	}
 
-	m.Run()
+	code := m.Run()
 	// Здесь может идти освобождение ресурсов.
+	os.Exit(code)
 }
 
 func TestService_Products(t *testing.T) {
