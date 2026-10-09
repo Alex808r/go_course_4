@@ -3,6 +3,7 @@ package bsearch
 import "fmt"
 
 // Simple возвращает номер элемента в массиве или -1. Используется простой поиск.
+// Временная сложность: O(N).
 func Simple(data []int, item int) int {
 	for i := range data {
 		if data[i] == item {
@@ -12,11 +13,13 @@ func Simple(data []int, item int) int {
 	return -1
 }
 
-// Binary возвращает номер элемента в массиве или -1. Используется бинарный поиск.
+// Binary возвращает индекс элемента в отсортированном слайсе или -1.
+// Временная сложность: O(log N), дополнительная память: O(1).
+// Вычисление середины mid := low + (high-low)/2 защищает от целочисленного переполнения.
 func Binary(data []int, item int) int {
 	low, high := 0, len(data)-1
 	for low <= high {
-		mid := (low + high) / 2
+		mid := low + (high-low)/2
 		if data[mid] == item {
 			return mid
 		}
